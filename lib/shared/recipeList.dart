@@ -20,10 +20,10 @@ class _RecipeListState extends State<RecipeList> {
   void _addRecipes() {
     // get data from db
     List<Recipe> _Recipes = [
-      Recipe(title: 'Cakes', price: '350', time: '3', img: 'cake.jpeg'),
-      Recipe(title: 'Donuts', price: '400', time: '5', img: 'donuts.jpeg'),
-      Recipe(title: 'Cupcakes', price: '750', time: '2', img: 'cupcakes.jpeg'),
-      Recipe(title: 'Cookies', price: '600', time: '4', img: 'cookies.jpeg'),
+      Recipe(title: 'Cakes', price: '350', time: '3', img: 'cake.png'),
+      Recipe(title: 'Donuts', price: '400', time: '5', img: 'donuts.png'),
+      Recipe(title: 'Cupcakes', price: '750', time: '2', img: 'cupcakes.png'),
+      Recipe(title: 'Cookies', price: '600', time: '4', img: 'coockies.png'),
     ];
 
     _Recipes.forEach((Recipe Recipe) {
@@ -49,7 +49,7 @@ class _RecipeListState extends State<RecipeList> {
         borderRadius: BorderRadius.circular(8.0),
         child: Image.asset(
           'images/${recipe.img}',
-          height: 50.0,width: 50,
+          height: 50.0,
         ),
       ),
       trailing: Text('\$${recipe.price}'),
