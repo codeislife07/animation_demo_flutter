@@ -47,9 +47,12 @@ class _RecipeListState extends State<RecipeList> {
       ),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
-        child: Image.asset(
-          'images/${recipe.img}',
-          height: 50.0,width: 50,
+        child: Hero(
+          tag:  'images/${recipe.img}',
+          child: Image.asset(
+            'images/${recipe.img}',
+            height: 50.0,width: 50,
+          ),
         ),
       ),
       trailing: Text('\$${recipe.price}'),
