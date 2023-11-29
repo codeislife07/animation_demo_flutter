@@ -9,12 +9,15 @@ class RecipeList extends StatefulWidget {
 
 class _RecipeListState extends State<RecipeList> {
   List<Widget> _RecipeTiles = [];
-  final GlobalKey _listKey = GlobalKey();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
     super.initState();
-    _addRecipes();
+    //after build method call _addRecipes()
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _addRecipes();
+    });
   }
 
   void _addRecipes() {
@@ -25,10 +28,18 @@ class _RecipeListState extends State<RecipeList> {
       Recipe(title: 'Cupcakes', price: '750', time: '2', img: 'cupcakes.jpeg'),
       Recipe(title: 'Cookies', price: '600', time: '4', img: 'cookies.jpeg'),
     ];
-
+    var future = Future(() {});
     _Recipes.forEach((Recipe Recipe) {
-      _RecipeTiles.add(_buildTile(Recipe));
+      //future delay for animation single item
+      future = future.then((_) {
+        return Future.delayed(Duration(milliseconds: 100), () {
+          _RecipeTiles.add(_buildTile(Recipe));
+          _listKey.currentState!.insertItem(_RecipeTiles.length-1);
+        });
+      });
+
     });
+
   }
 
   Widget _buildTile(Recipe recipe) {
@@ -56,14 +67,23 @@ class _RecipeListState extends State<RecipeList> {
     );
   }
 
+  Tween<Offset> _offset=Tween(begin: Offset(-1,0),end: Offset(0,0));
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return AnimatedList(
       key: _listKey,
-      itemCount: _RecipeTiles.length,
-      itemBuilder: (context, index) {
-        return _RecipeTiles[index];
+      initialItemCount: _RecipeTiles.length,
+      itemBuilder: (context, index,animation) {
+        return SlideTransition(
+          // sizeFactor: animation,
+          child: _RecipeTiles[index],
+          position: _offset.animate(animation),
+        );
       }
     );
   }
 }
+
+
+//Thank you for watching
